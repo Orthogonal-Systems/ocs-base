@@ -7,3 +7,6 @@
 [submodule "arduino_uip"]
 	path = uIPEthernet
 	url = https://github.com/Orthogonal-Systems/arduino_uip.git
+[submodule "zmq"]
+	path = zmq
+	url = https://github.com/Orthogonal-Systems/zmq.git
