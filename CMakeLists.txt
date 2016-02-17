@@ -266,12 +266,15 @@ add_subdirectory(uIPEthernet)     # uIPEthernet Library for Micochip ENC28J60 ch
 ### AMC7812 Chip Driver
 add_subdirectory(amc7812)         # TI AMC7812 ADC & DAC
 add_subdirectory(usart)           # simple serial communication, without arduino
+### Zero MQ implementation
+add_subdirectory(zmq)             # zmq socket emulator
 
 ### add example executable directories, but dont automatically compile it
 ### to compile: cd build ; make amc7812_[example name]
 add_subdirectory(blink EXCLUDE_FROM_ALL)
 add_subdirectory(amc7812/examples EXCLUDE_FROM_ALL)
 add_subdirectory(uIPEthernet/examples/udpDataStream EXCLUDE_FROM_ALL)
+add_subdirectory(zmq/examples EXCLUDE_FROM_ALL)
 
 ################################################################################
 # status messages
