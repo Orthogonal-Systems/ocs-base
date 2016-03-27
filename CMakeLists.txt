@@ -250,6 +250,7 @@ add_subdirectory(SoftwareSerial)  # bit-banged serial communication
 add_subdirectory(SPI)             # SPI communication library
 add_subdirectory(Stepper)         # library for stepper motor control
 #add_subdirectory(TFT)             # library for TFT LCD screen is not supported right now
+add_subdirectory(Time)            # library for time function ntp sync
 add_subdirectory(WiFi)            # library for wifi sheild
 add_subdirectory(Wire)            # I2C/TWI communication
 
@@ -275,6 +276,7 @@ add_subdirectory(blink EXCLUDE_FROM_ALL)
 add_subdirectory(amc7812/examples EXCLUDE_FROM_ALL)
 add_subdirectory(uIPEthernet/examples/udpDataStream EXCLUDE_FROM_ALL)
 add_subdirectory(zmq/examples EXCLUDE_FROM_ALL)
+add_subdirectory(Time/examples EXCLUDE_FROM_ALL)
 
 ################################################################################
 # status messages
