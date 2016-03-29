@@ -41,10 +41,12 @@
 #define AMC7812_CS_PORT   PORTG
 #define AMC7812_CS_DDR    DDRG
 #define AMC7812_CS_PIN    0     // mega pin 41
+#define AMC7812_CS_ARDUINO_PIN 41
 // REQUIRED:reset pin
 #define AMC7812_RST_PORT  PORTL
 #define AMC7812_RST_DDR   DDRL
 #define AMC7812_RST_PIN   1    // mega pin 48
+#define AMC7812_RST_ARDUINO_PIN 48
 
 // OPTIONAL: data available flag (comment out if not connected)
 #define AMC7812_DAV_PORT  PORTL
