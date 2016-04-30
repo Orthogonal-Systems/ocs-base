@@ -30,7 +30,7 @@ SET(BOARD_NAME "mega2560")
 ################################################################################
 SET(AVR_UPLOADTOOL avrdude)
 SET(AVR_UPLOADTOOL_STAT [USER])
-SET(AVR_UPLOADTOOL_PORT /dev/ttyACM*)
+SET(AVR_UPLOADTOOL_PORT /dev/ttyACM1)
 SET(AVR_UPLOADTOOL_PORT_STAT [USER])
 
 SET(TOOLS_DIR "${CMAKE_SOURCE_DIR}/tools")
