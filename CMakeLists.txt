@@ -28,18 +28,26 @@ SET(BOARD_NAME "mega2560")
 ################################################################################
 # define custom toolchain and mcu here
 ################################################################################
-SET(AVR_UPLOADTOOL avrdude)
-SET(AVR_UPLOADTOOL_STAT [USER])
-SET(AVR_UPLOADTOOL_PORT /dev/ttyACM*)
-SET(AVR_UPLOADTOOL_PORT_STAT [USER])
-
-SET(TOOLS_DIR "${CMAKE_SOURCE_DIR}/tools")
-SET(ARDUINO_SETTINGS_FILE "${CMAKE_SOURCE_DIR}/cmake/arduino-crosscompile.cmake")
 
 ### AUTOMATIC BOARD SETTINGS
 # set values based on arduino style boards.txt file
 include(${CMAKE_SOURCE_DIR}/cmake/boards_txt-reader.cmake)
 read_boards_txt_file(${BOARD_NAME})
+
+SET(AVR_UPLOADTOOL avrdude)
+SET(AVR_UPLOADTOOL_STAT [USER])
+SET(AVR_UPLOADTOOL_PORT /dev/ttyACM*)
+#SET(AVR_UPLOADTOOL_PORT /dev/usb/hiddev1)
+SET(AVR_UPLOADTOOL_PORT_STAT [USER])
+#SET(AVR_PROGRAMMER arduino)
+SET(AVR_PROGRAMMER wiring)
+#SET(AVR_PROGRAMMER atmelice_isp)
+#SET(AVR_PROGRAMMER avrispmkII)
+SET(AVR_PROGRAMMER_STAT [USER])
+
+
+SET(TOOLS_DIR "${CMAKE_SOURCE_DIR}/tools")
+SET(ARDUINO_SETTINGS_FILE "${CMAKE_SOURCE_DIR}/cmake/arduino-crosscompile.cmake")
 
 ### MANUAL BOARD SETTINGS, UNCOMMMET LINE PAIRS OR THE STAT WILL BE WRONG
 # MCU and fuses
