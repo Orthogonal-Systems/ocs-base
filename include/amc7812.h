@@ -90,6 +90,7 @@
 //AMC_CONF_1 settings (1<<setting), see pg 67
 #define AMC7812_CONV_RATE_1  9   // ADC conversion rate bit
 #define AMC7812_CONV_RATE_0  8   // ADC conversion rate bit
+#define AMC7812_CONV_RATE_MASK 0x30 // mask for ADC conversion rate bits
 #define AMC7812_CH_FALR_2    7   // False alarm protection bit CH0-3
 #define AMC7812_CH_FALR_1    6   // False alarm protection bit CH0-3
 #define AMC7812_CH_FALR_0    5   // False alarm protection bit CH0-3
@@ -501,6 +502,26 @@ class AMC7812Class {
      */
     inline uint16_t SetTriggeredMode(){
       return WriteAMCConfig( 0, amc_conf[0] & ~(1<<AMC7812_CMODE) );
+    }
+
+    //! Set conversion speed
+    /*!
+     * \param prescalar is the 2 bit prescalar for the conversion rate.  Valid values are
+     * 0-3. A mask is applied to the input to make it always valid.
+     *
+     * \return returned value is the response for the previous frame
+     *
+     * The conversion rate determines both the maximum throughput of the
+     * device, as well as the time spent on each channel.  Decreasing the
+     * conversion rate (increasing the prescalar) also increases the averaging
+     * time.
+     *
+     * See Table 1 or 18 for values.
+     */
+    inline uint16_t SetConversionRate( uint8_t prescalar ){
+      uint16_t old_reg = amc_conf[1]&(!AMC7812_CONV_RATE_MASK);
+      uint16_t new_rate = (((uint16_t)prescalar)<<AMC7812_CONV_RATE_0)&AMC7812_CONV_RATE_MASK;
+      return WriteAMCConfig( 0, old_reg | new_rate );
     }
 
     //=============================================================================

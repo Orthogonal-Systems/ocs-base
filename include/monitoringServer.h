@@ -26,8 +26,8 @@ class DataPacket{
       {
         // TODO: find better way
         // calculate regstration packet size
-        //registerSize = 6 + streamNameSize + channels*( 6 + CHANNEL_NAME_SIZE + INT_TYPE_SIZE );
-        registerSize = 6 + streamNameSize + channels*( 6 + CHANNEL_NAME_SIZE + FLOAT_TYPE_SIZE );
+        registerSize = 6 + streamNameSize + channels*( 6 + CHANNEL_NAME_SIZE + INT_TYPE_SIZE );
+        //registerSize = 6 + streamNameSize + channels*( 6 + CHANNEL_NAME_SIZE + FLOAT_TYPE_SIZE );
         // calculate data packet size
         packetSize = 7 + streamNameSize + TIMESTAMP_SIZE + channels*( 4 + CHANNEL_NAME_SIZE + dataEntrySize );
         fracSecTS = _fracSecTS;
