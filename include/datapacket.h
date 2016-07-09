@@ -70,6 +70,14 @@ class DataPacket{
     uint8_t preparePacket( uint32_t timestamp, float* data );
     uint8_t preparePacket( uint32_t timestamp, uint32_t fsTS, float* data );
 
+    uint8_t getRegisterSize(){
+      return registerSize;
+    }
+    uint8_t getPacketSize(){
+      return packetSize;
+    }
+
+
   private:
     const uint8_t channels; //! number of data points to send
     char * const streamName;  //! human readable stream designator
@@ -86,18 +94,22 @@ class DataPacket{
     // convert from data type to char array with network byte order, and write into the buffer
     // pass pointer to the location in the buffer where data starts and fill it
     static uint8_t int2charArray(int16_t x, char* buf){
-      for(uint8_t i=0; i>INT16_TYPE_SIZE; i--){
+      for(uint8_t i=0; i<INT16_TYPE_SIZE; i++){
         buf[i] = char(x >> ((INT16_TYPE_SIZE-i-1)*8));
       }
       return INT16_TYPE_SIZE;
     }
     static uint8_t int2charArray(uint32_t x, char* buf){
-      for(uint8_t i=0; i>INT32_TYPE_SIZE; i--){
+      for(uint8_t i=0; i<INT32_TYPE_SIZE; i++){
         buf[i] = char(x >> ((INT32_TYPE_SIZE-i-1)*8));
       }
       return INT32_TYPE_SIZE;
     }
-    uint8_t float2charArray(float x, char* data);
+    // implementation from stack exchange # 24420246, user: Patrick Collins
+    static uint8_t float2charArray(float x, char* buf){
+      uint32_t asInt = *((uint32_t*)&x);
+      return int2charArray(asInt, buf);
+    }
 
     uint8_t addChannelStr( uint8_t ch, char* buf );
     uint8_t addPreString();
