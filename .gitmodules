@@ -13,3 +13,6 @@
 [submodule "Time"]
 	path = Time
 	url = https://github.com/Orthogonal-Systems/Time.git
+[submodule "originlib"]
+	path = originlib
+	url = https://github.com/Orthogonal-Systems/originlib.git
