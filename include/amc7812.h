@@ -90,7 +90,6 @@
 //AMC_CONF_1 settings (1<<setting), see pg 67
 #define AMC7812_CONV_RATE_1  9   // ADC conversion rate bit
 #define AMC7812_CONV_RATE_0  8   // ADC conversion rate bit
-#define AMC7812_CONV_RATE_MASK 0x30 // mask for ADC conversion rate bits
 #define AMC7812_CH_FALR_2    7   // False alarm protection bit CH0-3
 #define AMC7812_CH_FALR_1    6   // False alarm protection bit CH0-3
 #define AMC7812_CH_FALR_0    5   // False alarm protection bit CH0-3
@@ -167,6 +166,15 @@
 #define AMC7812_DAC_GAIN_LOW  2
 
 #define AMC7812_TIMEOUT_CONV_CYCLS 16000 // 1 ms at 16 MHz clock, ignoring overhead
+
+#define IOFFSET_0_ADDR 0x4
+// MFE 04/2018
+// second ic's address was supposed to be 0x5 
+// either it was stuffed wrong or I messed up the specs
+#define IOFFSET_1_ADDR 0x6
+#define IOFFSET_OFF 0xFF
+#define IOFFSET_ON 0x00
+
 
 // functions
 #include <avr/io.h>
@@ -344,7 +352,7 @@ class AMC7812Class {
      * Disabled channels default to 0.
      * The index matches the channel number i.e. ADCn value is stored at `ADC[n]`.
      */
-    uint16_t* GetADCReadings(){ return adc_vals; };
+    uint16_t* GetADCReadings() { return adc_vals; };
 
     //! Read ADC gain setting
     /*!
@@ -485,7 +493,7 @@ class AMC7812Class {
      * asserted to begin the cycle even if in continuous mode.
      * See page 30 of datasheet.
      */
-    inline uint16_t SetContinuousMode(){
+    inline uint16_t SetContinuousADCMode(){
       return WriteAMCConfig( 0, amc_conf[0] | (1<<AMC7812_CMODE) );
     }
 
@@ -500,28 +508,8 @@ class AMC7812Class {
      *
      * See page 30 of datasheet.
      */
-    inline uint16_t SetTriggeredMode(){
+    inline uint16_t SetTriggeredADCMode(){
       return WriteAMCConfig( 0, amc_conf[0] & ~(1<<AMC7812_CMODE) );
-    }
-
-    //! Set conversion speed
-    /*!
-     * \param prescalar is the 2 bit prescalar for the conversion rate.  Valid values are
-     * 0-3. A mask is applied to the input to make it always valid.
-     *
-     * \return returned value is the response for the previous frame
-     *
-     * The conversion rate determines both the maximum throughput of the
-     * device, as well as the time spent on each channel.  Decreasing the
-     * conversion rate (increasing the prescalar) also increases the averaging
-     * time.
-     *
-     * See Table 1 or 18 for values.
-     */
-    inline uint16_t SetConversionRate( uint8_t prescalar ){
-      uint16_t old_reg = amc_conf[1]&(!AMC7812_CONV_RATE_MASK);
-      uint16_t new_rate = (((uint16_t)prescalar)<<AMC7812_CONV_RATE_0)&AMC7812_CONV_RATE_MASK;
-      return WriteAMCConfig( 0, old_reg | new_rate );
     }
 
     //=============================================================================
@@ -684,6 +672,31 @@ class AMC7812Class {
      */
     uint16_t DisableDACs ();
 
+    //! Set dac update mode to continuous
+    /*!
+     * \return returned value is the response for the previous frame
+     *
+     * In continuous mode, the chip asynchronously updates the relevant DAC
+     * output whenever a DAC output register is wirtten to.
+     *
+     * See page 75 of datasheet.
+     */
+    inline uint16_t SetContinuousDACMode(){
+      return Write( AMC7812_DAC_CONF, 0x0000 );
+    }
+
+    //! Set dac update mode to triggered
+    /*!
+     * \return returned value is the response for the previous frame
+     *
+     * In triggered mode, the chip synchronously updates the DAC
+     * outputs whenever the ILDAC register or pin is activated.
+     *
+     * See page 75 of datasheet.
+     */
+    inline uint16_t SetTriggeredDACMode(){
+      return Write( AMC7812_DAC_CONF, 0x0FFF );
+    }
 
     //=============================================================================
     // configuration registers functions
