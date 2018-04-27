@@ -229,7 +229,7 @@ function(add_avr_executable EXECUTABLE_NAME)
       ${AVR_UPLOADTOOL} -p ${AVR_MCU} -c ${AVR_PROGRAMMER} ${AVR_UPLOADTOOL_OPTIONS}
          -U flash:w:${hex_fp}
          -P ${AVR_UPLOADTOOL_PORT}
-         -D # for VMEmega upload
+	 #-D # for VMEmega upload
       DEPENDS ${hex_file}
       COMMENT "Uploading ${hex_fp} to ${AVR_MCU} using ${AVR_PROGRAMMER}"
    )
